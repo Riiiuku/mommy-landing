@@ -32,10 +32,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,su
 .skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem;background:#fff;padding:.5rem 1rem;z-index:9}
 header{padding:1.25rem 0}
 header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.logo{display:block;width:150px;height:auto}
+.logo{display:block;width:150px;height:auto;transition:transform 350ms var(--ease)}
+@media (hover:hover){.logo:hover{transform:rotate(-1.5deg) scale(1.03)}}
 .tag{font-size:.8rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--taupe)}
 .btn{display:inline-block;background:var(--terracotta);color:#fff;font:600 1.05rem/1 var(--sans);padding:1rem 1.5rem;border:0;border-radius:999px;text-decoration:none;cursor:pointer}
+.btn::after{content:" →";display:inline-block;transition:transform var(--t) var(--ease)}
 .btn:hover{background:var(--terracotta-dk)}
+.btn:hover::after{transform:translateX(.25rem)}
+.btn:disabled::after{display:none}
 .btn-sm{font-size:.85rem;padding:.65rem 1rem;white-space:nowrap}
 @media (max-width:22rem){.logo{width:120px}}
 .hero{padding:2.5rem 0 3.5rem}
@@ -76,7 +80,10 @@ footer{background:var(--mocha);color:#F3E9E1;padding:2.5rem 0;font-size:.92rem}
 footer a{color:#fff}
 footer h2{color:#fff;font-size:1.2rem}
 details{border-top:1px solid rgba(255,255,255,.2);padding:.75rem 0}
-summary{cursor:pointer;font-weight:600}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.25rem;line-height:1;transition:transform 250ms var(--ease)}
+details[open] summary::after{transform:rotate(45deg)}
 details div{padding-top:.75rem}
 .eco{background:var(--sage-bg);color:var(--mocha);border-radius:var(--r);padding:1.25rem;margin-bottom:1.5rem}
 .eco h2{color:var(--sage)}
@@ -103,12 +110,16 @@ header .wrap>*{animation-duration:400ms}
 .hero .wrap>:nth-child(3){animation-delay:160ms}
 .hero .wrap>:nth-child(4){animation-delay:240ms}
 .hero .wrap>:nth-child(5){animation-delay:320ms}
+.hero .meta li::before{display:inline-block;animation:checkIn 400ms var(--ease) both}
+.hero .meta li:nth-child(2)::before{animation-delay:100ms}
+.hero .meta li:nth-child(3)::before{animation-delay:200ms}
 .js .rv{opacity:0;transform:translateY(20px);transition:opacity 500ms ease,transform 600ms var(--ease);transition-delay:var(--d,0ms)}
 .js .rv.in{opacity:1;transform:none}
+@keyframes checkIn{from{opacity:0;transform:scale(.4) rotate(-12deg)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:1ms!important;transition-delay:0ms!important}
   .js .rv{opacity:1;transform:none}
-  .btn:hover,.card:hover,ol.steps li:hover,ol.steps li:hover::before{transform:none}
+  .logo:hover,.btn:hover,.btn:hover::after,.card:hover,ol.steps li:hover,ol.steps li:hover::before,details[open] summary::after{transform:none}
 }
 </style>
 <script>document.documentElement.classList.add('js')</script>
