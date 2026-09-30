@@ -67,6 +67,8 @@ input[type=text],input[type=email],select{width:100%;font:inherit;color:inherit;
 .consent input{width:1.15rem;height:1.15rem;margin-top:.2rem;flex:none;accent-color:var(--terracotta)}
 .consent label{font-weight:400;margin:0}
 .hp{position:absolute;left:-9999px}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.lbl{margin-bottom:.3rem}.lbl label{display:inline;margin:0}
 .form-box .btn{width:100%}
 #ok{display:none;background:var(--sage-bg);border-radius:var(--r);padding:1.25rem;max-width:36rem;margin:0 auto}
 #ok:target,#ok.show{display:block}
@@ -207,6 +209,7 @@ header .wrap>*{animation-duration:400ms}
 
       <form class="form-box" id="form" name="beta" method="POST" action="/merci.html" data-netlify="true" netlify-honeypot="site-web">
         <input type="hidden" name="form-name" value="beta">
+        <input type="hidden" name="subject" data-remove-prefix value="Nouvelle candidature bêta MOMMY">
         <p class="hp"><label>Ne pas remplir : <input name="site-web" tabindex="-1" autocomplete="off"></label></p>
 
         <div class="field">
@@ -214,16 +217,16 @@ header .wrap>*{animation-duration:400ms}
           <input id="prenom" name="prenom" type="text" autocomplete="given-name" required maxlength="60">
         </div>
         <div class="field">
-          <label for="email">E-mail professionnel <span class="hint">— pour vous recontacter</span></label>
-          <input id="email" name="email" type="email" autocomplete="email" required maxlength="120">
+          <div class="lbl"><label for="email">E-mail professionnel</label> <span class="hint" id="email-h">— pour vous recontacter</span></div>
+          <input id="email" name="email" type="email" aria-describedby="email-h" autocomplete="email" required maxlength="120">
         </div>
         <div class="field">
           <label for="entreprise">Entreprise</label>
           <input id="entreprise" name="entreprise" type="text" autocomplete="organization" required maxlength="100">
         </div>
         <div class="field">
-          <label for="effectif">Effectif <span class="hint">— pour vérifier que la bêta vous correspond</span></label>
-          <select id="effectif" name="effectif" required>
+          <div class="lbl"><label for="effectif">Effectif</label> <span class="hint" id="effectif-h">— pour vérifier que la bêta vous correspond</span></div>
+          <select id="effectif" name="effectif" aria-describedby="effectif-h" required>
             <option value="">Choisir…</option>
             <option>Moins de 50 salariés</option>
             <option>50 à 250 salariés</option>
@@ -233,7 +236,8 @@ header .wrap>*{animation-duration:400ms}
         </div>
 
         <div class="consent">
-          <input id="consent" name="consentement" type="checkbox" value="oui" required>
+          <label for="consent" class="sr-only">Consentement</label>
+          <input id="consent" name="consentement" type="checkbox" value="Oui, accepté" required>
           <label for="consent">J’accepte que l’équipe MOMMY utilise ces informations uniquement pour me recontacter au sujet de la bêta. Elles sont supprimées au plus tard le 31/12/2026. <a href="#confidentialite">Politique de confidentialité</a></label>
         </div>
 
@@ -298,6 +302,7 @@ header .wrap>*{animation-duration:400ms}
 // Envoi sans rechargement (amélioration progressive : sans JS, le formulaire fonctionne quand même)
 var f=document.getElementById('form');
 f.addEventListener('submit',function(e){
+  var en=f.entreprise.value.trim(),ef=f.effectif.value;f.subject.value='Candidature bêta : '+en+(ef?' ('+ef+')':'');
   if(!window.fetch)return;e.preventDefault();
   var b=f.querySelector('button');b.disabled=true;b.textContent='Envoi…';
   fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
