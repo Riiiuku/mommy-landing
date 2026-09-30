@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOMMY — Programme bêta entreprises</title>
+<meta name="description" content="MOMMY aide vos salariés futurs et jeunes parents à savoir quoi faire, quand, et vers qui se tourner. Programme bêta gratuit pour les entreprises de 50 à 500 salariés.">
+<meta name="theme-color" content="#F7F1EA">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preload" href="playfair-600.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Playfair Display";src:url(playfair-600.woff2) format("woff2");font-weight:600;font-display:swap}
+:root{
+  --sand:#F7F1EA;--sand-2:#EFE5DA;--blush:#F3DDD3;--terracotta:#AF4B39;--terracotta-dk:#9E4232;
+  --taupe:#6B5A50;--mocha:#4A3A32;--sage:#5B6F55;--sage-bg:#E9EFE5;--white:#fff;
+  --serif:"Playfair Display",Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --r:14px;--w:68rem
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--sand);color:var(--mocha);font:1rem/1.6 var(--sans)}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.2;margin:0 0 .6em;color:var(--mocha)}
+h1{font-size:clamp(1.9rem,5vw,3rem)}
+h2{font-size:clamp(1.5rem,3.5vw,2.1rem)}
+h3{font-size:1.15rem}
+p{margin:0 0 1em}
+a{color:var(--terracotta-dk)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--terracotta);outline-offset:2px}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 1rem}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem;background:#fff;padding:.5rem 1rem;z-index:9}
+header{padding:1.25rem 0}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{display:block;width:150px;height:auto}
+.tag{font-size:.8rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--taupe)}
+.btn{display:inline-block;background:var(--terracotta);color:#fff;font:600 1.05rem/1 var(--sans);padding:1rem 1.5rem;border:0;border-radius:999px;text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--terracotta-dk)}
+.btn-sm{font-size:.85rem;padding:.65rem 1rem;white-space:nowrap}
+@media (max-width:22rem){.logo{width:120px}}
+.hero{padding:2.5rem 0 3.5rem}
+.hero .lead{font-size:1.15rem;max-width:40rem}
+.hero .meta{list-style:none;padding:0;margin:1.25rem 0 0;display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;font-size:.92rem;color:var(--taupe)}
+.hero .meta li::before{content:"✓ ";color:var(--sage)}
+section{padding:3rem 0}
+.alt{background:var(--white)}
+.grid{display:grid;gap:1rem}
+@media (min-width:48rem){.grid-3{grid-template-columns:repeat(3,1fr)}.grid-2{grid-template-columns:repeat(2,1fr)}}
+.card{background:var(--white);border-radius:var(--r);padding:1.25rem}
+.alt .card{background:var(--sand)}
+.card.sage{background:var(--sage-bg)}
+.card.sage h3{color:var(--sage)}
+.card p:last-child{margin:0}
+.kicker{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--terracotta-dk);margin-bottom:.5rem}
+.note{font-size:.9rem;color:var(--taupe)}
+ol.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;gap:1rem}
+@media (min-width:48rem){ol.steps{grid-template-columns:repeat(3,1fr)}}
+ol.steps li{counter-increment:s;background:var(--white);border-radius:var(--r);padding:1.25rem}
+ol.steps li::before{content:counter(s);display:inline-grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--blush);color:var(--terracotta-dk);font-weight:700;margin-bottom:.5rem}
+ul.no{padding-left:1.1rem;margin:0}ul.no li{margin-bottom:.35rem}
+.form-box{background:var(--white);border-radius:var(--r);padding:1.5rem;max-width:36rem;margin:0 auto;border:1px solid var(--sand-2)}
+.field{margin-bottom:1rem}
+label{display:block;font-weight:600;margin-bottom:.3rem}
+.hint{font-weight:400;font-size:.85rem;color:var(--taupe)}
+input[type=text],input[type=email],select{width:100%;font:inherit;color:inherit;padding:.75rem .85rem;border:1px solid #BFAFA3;border-radius:10px;background:#fff}
+.consent{display:flex;gap:.6rem;align-items:flex-start;font-size:.92rem;margin:1.25rem 0}
+.consent input{width:1.15rem;height:1.15rem;margin-top:.2rem;flex:none;accent-color:var(--terracotta)}
+.consent label{font-weight:400;margin:0}
+.hp{position:absolute;left:-9999px}
+.form-box .btn{width:100%}
+#ok{display:none;background:var(--sage-bg);border-radius:var(--r);padding:1.25rem;max-width:36rem;margin:0 auto}
+#ok:target,#ok.show{display:block}
+footer{background:var(--mocha);color:#F3E9E1;padding:2.5rem 0;font-size:.92rem}
+footer a{color:#fff}
+footer h2{color:#fff;font-size:1.2rem}
+details{border-top:1px solid rgba(255,255,255,.2);padding:.75rem 0}
+summary{cursor:pointer;font-weight:600}
+details div{padding-top:.75rem}
+.eco{background:var(--sage-bg);color:var(--mocha);border-radius:var(--r);padding:1.25rem;margin-bottom:1.5rem}
+.eco h2{color:var(--sage)}
+/* Animations — transform/opacity uniquement, désactivées si prefers-reduced-motion */
+:root{--ease:cubic-bezier(.22,1,.36,1);--t:200ms}
+.btn{transition:background-color var(--t) ease,transform var(--t) var(--ease),box-shadow var(--t) ease;touch-action:manipulation}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px -6px rgba(175,75,57,.55)}
+.btn:active{transform:translateY(0) scale(.97);box-shadow:none;transition-duration:100ms}
+.btn:disabled{opacity:.6;cursor:progress;transform:none;box-shadow:none}
+.card,ol.steps li{transition:transform 250ms var(--ease),box-shadow 250ms ease}
+@media (hover:hover){.card:hover,ol.steps li:hover{transform:translateY(-4px);box-shadow:0 12px 24px -14px rgba(74,58,50,.35)}}
+ol.steps li::before{transition:transform 300ms var(--ease)}
+ol.steps li:hover::before{transform:scale(1.12)}
+input[type=text],input[type=email],select{transition:border-color var(--t) ease,box-shadow var(--t) ease}
+input[type=text]:focus,input[type=email]:focus,select:focus{border-color:var(--terracotta);box-shadow:0 0 0 3px rgba(175,75,57,.15)}
+summary{transition:color var(--t) ease}summary:hover{color:#fff}
+details[open] div{animation:fadeUp 300ms var(--ease) both}
+#ok.show{animation:pop 400ms var(--ease) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.hero .wrap>*,header .wrap>*{animation:fadeUp 600ms var(--ease) both}
+header .wrap>*{animation-duration:400ms}
+.hero .wrap>:nth-child(2){animation-delay:80ms}
+.hero .wrap>:nth-child(3){animation-delay:160ms}
+.hero .wrap>:nth-child(4){animation-delay:240ms}
+.hero .wrap>:nth-child(5){animation-delay:320ms}
+.js .rv{opacity:0;transform:translateY(20px);transition:opacity 500ms ease,transform 600ms var(--ease);transition-delay:var(--d,0ms)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:1ms!important;transition-delay:0ms!important}
+  .js .rv{opacity:1;transform:none}
+  .btn:hover,.card:hover,ol.steps li:hover,ol.steps li:hover::before{transform:none}
+}
+</style>
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header>
+  <div class="wrap">
+    <img class="logo" src="logo.webp" width="150" height="53" alt="MOMMY">
+    <a class="btn btn-sm" href="#beta">Je participe à la bêta</a>
+  </div>
+</header>
+
+<main id="main">
+  <!-- 1. Proposition de valeur + cible + CTA -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="tag">Programme bêta · Entreprises de 50 à 500 salariés</p>
+      <h1>Quand vos salariés deviennent parents, aidez-les à savoir quoi faire, quand, et vers qui se tourner.</h1>
+      <p class="lead">MOMMY oriente les futurs et jeunes parents vers les bonnes ressources et démarches locales, de la grossesse au retour au travail. Vous proposez un appui parental simple à déployer, sans jamais voir qui l’utilise.</p>
+      <a class="btn" href="#beta">Je participe à la bêta</a>
+      <ul class="meta">
+        <li>Gratuit pendant la bêta</li>
+        <li>Démarre par un échange de 20 minutes</li>
+        <li>100 places</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. Le problème (présenté comme hypothèse) -->
+  <section class="alt">
+    <div class="wrap">
+      <span class="kicker">Le constat de départ</span>
+      <h2>Les ressources existent. S’y retrouver reste difficile.</h2>
+      <p>CAF, Assurance Maladie, PMI, 1000 premiers jours, associations locales : l’offre est riche mais dispersée. Pendant la grossesse, le post-partum et la reprise du travail, beaucoup de parents ne savent pas par où commencer.</p>
+      <p class="note">C’est l’hypothèse que nous testons avec cette bêta : nous voulons la confronter à vos pratiques et à celles de vos salariés.</p>
+    </div>
+  </section>
+
+  <!-- 3. Ce que fait MOMMY -->
+  <section>
+    <div class="wrap">
+      <span class="kicker">Pour vos salariés</span>
+      <h2>Les bonnes ressources, les bonnes démarches, au bon moment.</h2>
+      <div class="grid grid-3">
+        <div class="card"><h3>La prochaine démarche utile</h3><p>Un parcours clair, de la grossesse à la reprise du travail, qui indique quoi faire maintenant.</p></div>
+        <div class="card"><h3>Des ressources vérifiées</h3><p>Des contenus datés et des acteurs existants (CAF, PMI, professionnels, associations), sans en créer de nouveaux.</p></div>
+        <div class="card sage"><h3>L’entraide locale</h3><p>Une orientation vers les solutions de don, de prêt et de seconde main déjà présentes près de chez eux.</p></div>
+      </div>
+      <!-- EMPLACEMENT PHOTO (1 max, WebP < 40 ko) — décommenter quand la photo est fournie
+      <img src="photo.webp" width="800" height="533" loading="lazy" decoding="async" alt="[description de la photo]" style="width:100%;height:auto;border-radius:14px;margin-top:1.5rem">
+      -->
+    </div>
+  </section>
+
+  <!-- 4. Pour l'entreprise + confidentialité -->
+  <section class="alt">
+    <div class="wrap grid grid-2">
+      <div>
+        <span class="kicker">Pour votre entreprise</span>
+        <h2>Un appui parental utile, sans surveillance.</h2>
+        <ul class="no">
+          <li>Accès des salariés par simple invitation interne.</li>
+          <li>Vous ne recevez qu’un bilan agrégé, jamais de donnée individuelle.</li>
+          <li>Aucun indicateur n’est partagé en dessous d’un nombre minimal de participants, fixé avec vous.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Ce que MOMMY n’est pas</h3>
+        <ul class="no">
+          <li>Un service médical : nous orientons vers les professionnels, sans nous substituer à eux.</li>
+          <li>Un chatbot, un réseau social ou une place de marché.</li>
+          <li>Un coffre-fort à documents de santé.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Déroulé de la bêta -->
+  <section>
+    <div class="wrap">
+      <span class="kicker">Comment se passe la bêta</span>
+      <h2>Trois étapes, sans engagement.</h2>
+      <ol class="steps">
+        <li><h3>Vous candidatez</h3><p>Une minute, quatre informations.</p></li>
+        <li><h3>On échange 20 minutes</h3><p>Pour comprendre vos pratiques autour de la parentalité. Vous recevez ensuite la synthèse anonyme de notre étude.</p></li>
+        <li><h3>On teste ensemble</h3><p>Si cela a du sens pour vous : un pilote gratuit avec vos salariés, confidentialité garantie.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 6. Formulaire (conversion unique) -->
+  <section class="alt" id="beta">
+    <div class="wrap">
+      <h2 style="text-align:center">Rejoignez les 100 entreprises bêta-testeuses</h2>
+      <p class="note" style="text-align:center;max-width:36rem;margin:0 auto 1.5rem">Nous vous recontactons sous 48 h ouvrées pour fixer l’échange de 20 minutes.</p>
+
+      <form class="form-box" id="form" name="beta" method="POST" action="/merci.html" data-netlify="true" netlify-honeypot="site-web">
+        <input type="hidden" name="form-name" value="beta">
+        <p class="hp"><label>Ne pas remplir : <input name="site-web" tabindex="-1" autocomplete="off"></label></p>
+
+        <div class="field">
+          <label for="prenom">Prénom</label>
+          <input id="prenom" name="prenom" type="text" autocomplete="given-name" required maxlength="60">
+        </div>
+        <div class="field">
+          <label for="email">E-mail professionnel <span class="hint">— pour vous recontacter</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" required maxlength="120">
+        </div>
+        <div class="field">
+          <label for="entreprise">Entreprise</label>
+          <input id="entreprise" name="entreprise" type="text" autocomplete="organization" required maxlength="100">
+        </div>
+        <div class="field">
+          <label for="effectif">Effectif <span class="hint">— pour vérifier que la bêta vous correspond</span></label>
+          <select id="effectif" name="effectif" required>
+            <option value="">Choisir…</option>
+            <option>Moins de 50 salariés</option>
+            <option>50 à 250 salariés</option>
+            <option>250 à 500 salariés</option>
+            <option>Plus de 500 salariés</option>
+          </select>
+        </div>
+
+        <div class="consent">
+          <input id="consent" name="consentement" type="checkbox" value="oui" required>
+          <label for="consent">J’accepte que l’équipe MOMMY utilise ces informations uniquement pour me recontacter au sujet de la bêta. Elles sont supprimées au plus tard le 31/12/2026. <a href="#confidentialite">Politique de confidentialité</a></label>
+        </div>
+
+        <button class="btn" type="submit">Je participe à la bêta</button>
+        <p class="note" style="margin:.75rem 0 0;text-align:center">Aucun cookie, aucun traceur. Désinscription sur simple e-mail.</p>
+      </form>
+
+      <div id="ok" role="status" tabindex="-1">
+        <h3>Merci, c’est noté !</h3>
+        <p style="margin:0">Nous vous écrivons sous 48 h ouvrées pour fixer notre échange de 20 minutes.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="eco">
+      <h2>Une page sobre, par conception</h2>
+      <p style="margin:0">Pas de vidéo ni de carrousel, une seule police, aucun cookie ni outil de mesure d’audience, et une page de moins de 50 ko. Ce que nous défendons, nous l’appliquons d’abord ici.</p>
+    </div>
+
+    <details id="mentions">
+      <summary>Mentions légales</summary>
+      <div>
+        <p><strong>Éditeur :</strong> équipe MOMMY (groupe n°8), projet étudiant réalisé dans le cadre du Change Maker Project 2026. MOMMY n’est pas une société immatriculée.<br>
+        <strong>Responsable de la publication :</strong> l’équipe MOMMY — <a href="mailto:cmakerproject@gmail.com">cmakerproject@gmail.com</a><br>
+        <strong>Hébergeur :</strong> Netlify, Inc., 101 2nd Street, San Francisco, CA 94105, États-Unis — netlify.com</p>
+        <p>MOMMY n’est pas un service médical et ne fournit aucun conseil de santé individuel.</p>
+      </div>
+    </details>
+
+    <details id="confidentialite">
+      <summary>Politique de confidentialité</summary>
+      <div>
+        <p><strong>Responsable du traitement :</strong> équipe MOMMY — <a href="mailto:cmakerproject@gmail.com">cmakerproject@gmail.com</a>.</p>
+        <p><strong>Finalité :</strong> vous recontacter pour organiser un échange de 20 minutes et, si vous le souhaitez, un pilote dans le cadre de la bêta. Aucune autre utilisation, aucune revente, aucun envoi de masse.</p>
+        <p><strong>Base légale :</strong> votre consentement, que vous pouvez retirer à tout moment.</p>
+        <p><strong>Données collectées :</strong> prénom, e-mail professionnel, entreprise et tranche d’effectif. Rien d’autre.</p>
+        <p><strong>Destinataires :</strong> les seuls membres de l’équipe MOMMY. Les réponses au formulaire sont stockées par notre hébergeur Netlify, Inc. aux États-Unis ; ce transfert est encadré par le Data Privacy Framework UE–États-Unis et les clauses contractuelles types de la Commission européenne.</p>
+        <p><strong>Durée de conservation :</strong> jusqu’à la fin du projet, et au plus tard le 31/12/2026, sauf accord de votre part pour poursuivre.</p>
+        <p><strong>Vos droits :</strong> accès, rectification, suppression, opposition et retrait du consentement, en écrivant à <a href="mailto:cmakerproject@gmail.com?subject=Suppression%20de%20mes%20donn%C3%A9es">cmakerproject@gmail.com</a>. Vous pouvez aussi saisir la CNIL (cnil.fr).</p>
+        <p><strong>Cookies :</strong> ce site ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience ni traceur tiers.</p>
+      </div>
+    </details>
+
+    <p style="margin:1.5rem 0 0">MOMMY · Une nouvelle étape, ensemble. · <a href="mailto:cmakerproject@gmail.com">cmakerproject@gmail.com</a></p>
+  </div>
+</footer>
+
+<script>
+// Apparition au défilement (sans JS ou sans IntersectionObserver : tout reste visible)
+(function(){
+  var els=document.querySelectorAll('main section:not(.hero) .wrap>:not(.grid):not(ol):not(#ok),main .grid>*,ol.steps>li');
+  if(!('IntersectionObserver' in window)){document.documentElement.classList.remove('js');return}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var t=e.target;t.classList.add('in');io.unobserve(t);setTimeout(function(){t.classList.remove('rv','in');t.style.removeProperty('--d')},1200)}})},{rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(el){
+    var i=Array.prototype.indexOf.call(el.parentNode.children,el);
+    el.style.setProperty('--d',Math.min(i,5)*60+'ms');el.classList.add('rv');io.observe(el);
+  });
+})();
+// Envoi sans rechargement (amélioration progressive : sans JS, le formulaire fonctionne quand même)
+var f=document.getElementById('form');
+f.addEventListener('submit',function(e){
+  if(!window.fetch)return;e.preventDefault();
+  var b=f.querySelector('button');b.disabled=true;b.textContent='Envoi…';
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
+  .then(function(r){if(!r.ok)throw 0;f.style.display='none';var o=document.getElementById('ok');o.classList.add('show');o.focus()})
+  .catch(function(){b.disabled=false;b.textContent='Je participe à la bêta';alert('L’envoi a échoué. Réessayez ou écrivez-nous à cmakerproject@gmail.com.')});
+});
+</script>
+</body>
+</html>
