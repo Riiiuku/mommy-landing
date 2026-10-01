@@ -42,10 +42,31 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1
 .btn:disabled::after{display:none}
 .btn-sm{font-size:.85rem;padding:.65rem 1rem;white-space:nowrap}
 @media (max-width:22rem){.logo{width:120px}}
-.hero{padding:2.5rem 0 3.5rem}
-.hero .lead{font-size:1.15rem;max-width:40rem}
-.hero .meta{list-style:none;padding:0;margin:1.25rem 0 0;display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;font-size:.92rem;color:var(--taupe)}
-.hero .meta li::before{content:"✓ ";color:var(--sage)}
+.hero{padding:0 0 3.5rem}
+.hero-visual{position:relative;max-width:120rem;margin:0 auto;overflow:hidden;background:#F8F4EE}
+.hero-visual img{display:block;width:100%;height:auto}
+.hero-actions{position:absolute;z-index:1;left:6.45%;top:73.5%;width:24.5%;display:grid;gap:clamp(.35rem,.65vw,.75rem)}
+.hero-download{display:flex;align-items:center;justify-content:center;gap:1.25rem;min-height:clamp(2.75rem,3.55vw,4.25rem);padding:.65rem 1.25rem;border-radius:999px;background:linear-gradient(100deg,#C66D58,#C4614F);box-shadow:0 8px 20px -12px rgba(111,49,37,.65);color:#fff;font:500 clamp(.85rem,1.35vw,1.55rem)/1 var(--sans);text-decoration:none;transition:transform var(--t) var(--ease),box-shadow var(--t) ease,filter var(--t) ease}
+.hero-download span{font-size:1.45em;line-height:.5;transition:transform var(--t) var(--ease)}
+.hero-download:hover{transform:translateY(-2px);box-shadow:0 11px 24px -12px rgba(111,49,37,.8);filter:saturate(1.08)}
+.hero-download:hover span{transform:translateX(.2rem)}
+.store-links{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.3rem,.65vw,.75rem)}
+.store-badge{display:flex;align-items:center;justify-content:center;gap:clamp(.3rem,.55vw,.65rem);min-width:0;min-height:clamp(2.65rem,3.15vw,3.75rem);padding:.35rem clamp(.35rem,.75vw,.75rem);border:1px solid rgba(74,58,50,.68);border-radius:8px;background:rgba(255,255,255,.68);color:#302721;text-decoration:none;backdrop-filter:blur(5px);transition:transform var(--t) var(--ease),background-color var(--t) ease,box-shadow var(--t) ease}
+.store-badge:hover{transform:translateY(-2px);background:#fff;box-shadow:0 8px 18px -12px rgba(74,58,50,.65)}
+.store-badge svg{width:clamp(1.15rem,1.6vw,1.9rem);height:clamp(1.15rem,1.6vw,1.9rem);flex:none}
+.store-copy{display:grid;line-height:1.02;white-space:nowrap}
+.store-copy small{font-size:clamp(.45rem,.58vw,.65rem);font-weight:500}
+.store-copy strong{font-size:clamp(.68rem,.9vw,1rem);font-weight:600}
+.hero-actions a:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px var(--terracotta)}
+@media (max-width:48rem){
+  .hero{padding-bottom:2.5rem}
+  .hero-visual{aspect-ratio:1/1}
+  .hero-visual img{width:100%;height:100%;object-fit:cover;object-position:left center}
+  .hero-actions{left:15%;top:73.5%;width:57%;gap:.35rem}
+  .hero-download{min-height:2.75rem;gap:.75rem;padding:.55rem .75rem}
+  .store-links{gap:.35rem}
+  .store-badge{min-height:2.7rem;padding:.3rem .4rem}
+}
 section{padding:3rem 0}
 .alt{background:var(--white)}
 .grid{display:grid;gap:1rem}
@@ -104,18 +125,10 @@ details[open] div{animation:fadeUp 300ms var(--ease) both}
 #ok.show{animation:pop 400ms var(--ease) both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
-.hero .wrap>*,header .wrap>*{animation:fadeUp 600ms var(--ease) both}
+.hero-visual,header .wrap>*{animation:fadeUp 600ms var(--ease) both}
 header .wrap>*{animation-duration:400ms}
-.hero .wrap>:nth-child(2){animation-delay:80ms}
-.hero .wrap>:nth-child(3){animation-delay:160ms}
-.hero .wrap>:nth-child(4){animation-delay:240ms}
-.hero .wrap>:nth-child(5){animation-delay:320ms}
-.hero .meta li::before{display:inline-block;animation:checkIn 400ms var(--ease) both}
-.hero .meta li:nth-child(2)::before{animation-delay:100ms}
-.hero .meta li:nth-child(3)::before{animation-delay:200ms}
 .js .rv{opacity:0;transform:translateY(20px);transition:opacity 500ms ease,transform 600ms var(--ease);transition-delay:var(--d,0ms)}
 .js .rv.in{opacity:1;transform:none}
-@keyframes checkIn{from{opacity:0;transform:scale(.4) rotate(-12deg)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:1ms!important;transition-delay:0ms!important}
   .js .rv{opacity:1;transform:none}
@@ -135,18 +148,24 @@ header .wrap>*{animation-duration:400ms}
 </header>
 
 <main id="main">
-  <!-- 1. Proposition de valeur + cible + CTA -->
+  <!-- 1. Hero produit + CTA -->
   <section class="hero">
-    <div class="wrap">
-      <p class="tag">Programme bêta · Entreprises de 50 à 500 salariés</p>
-      <h1>Quand vos salariés deviennent parents, aidez-les à savoir quoi faire, quand, et vers qui se tourner.</h1>
-      <p class="lead">MOMMY oriente les futurs et jeunes parents vers les bonnes ressources et démarches locales, de la grossesse au retour au travail. Vous proposez un appui parental simple à déployer, sans jamais voir qui l’utilise.</p>
-      <a class="btn" href="#beta">Je participe à la bêta</a>
-      <ul class="meta">
-        <li>Gratuit pendant la bêta</li>
-        <li>Démarre par un échange de 20 minutes</li>
-        <li>100 places</li>
-      </ul>
+    <div class="hero-visual">
+      <h1 class="sr-only">MOMMY, l’application qui vous guide à chaque étape</h1>
+      <img src="hero-mommy.webp" width="1915" height="821" fetchpriority="high" decoding="async" alt="MOMMY accompagne les parents pendant la grossesse, le post-partum, la coparentalité et leurs démarches.">
+      <div class="hero-actions">
+        <a class="hero-download" href="#beta">Télécharger l’app <span aria-hidden="true">→</span></a>
+        <div class="store-links">
+          <a class="store-badge" href="#beta" aria-label="Télécharger MOMMY sur l’App Store en rejoignant la bêta">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.6 12.3c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.9-3.5.9-.8 0-2-.9-3.2-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.3 2.5 1.3-.1 1.8-.8 3.4-.8 1.6 0 2.1.8 3.5.7 1.5 0 2.4-1.2 3.3-2.4 1-1.4 1.4-2.7 1.5-2.8-.1 0-3-1.1-3-4.6Zm-1.4-6.8c.7-.9 1.2-2.1 1.1-3.3-1.1 0-2.4.7-3.2 1.6-.7.8-1.3 2-1.2 3.2 1.2.1 2.5-.6 3.3-1.5Z"/></svg>
+            <span class="store-copy"><small>Télécharger sur</small><strong>l’App Store</strong></span>
+          </a>
+          <a class="store-badge" href="#beta" aria-label="Télécharger MOMMY sur Google Play en rejoignant la bêta">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.25v17.5L19 12 4 3.25Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m4.5 3.9 9.4 10.8M4.5 20.1l9.4-10.8" fill="none" stroke="currentColor" stroke-width="1.15"/></svg>
+            <span class="store-copy"><small>Disponible sur</small><strong>Google Play</strong></span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -268,7 +287,7 @@ header .wrap>*{animation-duration:400ms}
   <div class="wrap">
     <div class="eco">
       <h2>Une page sobre, par conception</h2>
-      <p style="margin:0">Pas de vidéo ni de carrousel, une seule police, aucun cookie ni outil de mesure d’audience, et une page de moins de 50 ko. Ce que nous défendons, nous l’appliquons d’abord ici.</p>
+      <p style="margin:0">Pas de vidéo ni de carrousel, une seule police, une image optimisée, aucun cookie ni outil de mesure d’audience. Ce que nous défendons, nous l’appliquons d’abord ici.</p>
     </div>
 
     <details id="mentions">
